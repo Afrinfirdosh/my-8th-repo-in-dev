@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="2125108e-ebff-4c0d-9a86-dfd95702f4d6" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="privateflow" doc:id="3f9febbf-d26d-4e3f-8d31-e1cf723fa4cd" >
+		<logger level="INFO" doc:name="Logger" doc:id="be04ac1c-a2da-4945-b7fe-de48c5adb3a6" />
+		<logger level="INFO" doc:name="Logger" doc:id="acad6e8f-9f45-4f1b-b6e0-f43f13e5e5d8" />
+		<validation:is-null doc:id="5b37955b-6ea7-423a-9f91-97196f86157c" value="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f6ac0dec-b6cc-4d40-9adc-ac8bb44da8f7" />
+		<logger level="INFO" doc:name="Logger" doc:id="6d3baf5d-9adb-48c7-a8a1-52109e8849ad" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="c888974d-d13f-4755-bbba-c1ffb45abdd4" >
+				<logger level="INFO" doc:name="Logger" doc:id="c17a1706-2c3a-4744-8f8b-6e46e035fdc6" />
+				<logger level="INFO" doc:name="Logger" doc:id="10afac6f-760d-41aa-9161-0dfc3547a369" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="mainflow" doc:id="0fd88f19-eabf-42ff-9b7f-32d215c743d2" >
+		<http:listener doc:name="Listener" doc:id="2f6baa78-a063-4e77-8005-9dc1555b3b5b" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="fb506d97-6de7-4260-85e6-865f19385139" />
+		<flow-ref doc:name="Flow Reference" doc:id="146f264c-cc66-4a6f-9c2d-c63f35de7d46" name="privateflow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="db53e810-740b-4b2d-9cc3-ed2c11ff09aa" />
+		<logger level="INFO" doc:name="Logger" doc:id="c30c01ee-1335-46d4-bbea-b3893b4e2650" />
+	</flow>
+</mule>
